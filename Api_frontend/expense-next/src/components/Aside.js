@@ -94,7 +94,7 @@ export function Aside({ className, ...props }) {
                 <CardContent>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button className="bg-blue-500 rounded-2xl text-white px-16" variant="outline"> <Plus size={18} /> Add</Button>
+                            <Button className="bg-blue-500 rounded-2xl text-white px-16 w-full" variant="outline"> <Plus size={18} /> Add</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
