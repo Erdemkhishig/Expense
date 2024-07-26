@@ -31,6 +31,8 @@ import { cn } from "@/lib/utils"
 import { Slider } from "@/components/ui/slider"
 import { useState } from "react"
 
+import { Addbutton } from "./Addbutton";
+
 
 // const category = [
 //     {
@@ -92,42 +94,8 @@ export function Aside({ className, ...props }) {
 
                 </CardHeader>
                 <CardContent>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button className="bg-blue-500 rounded-2xl text-white px-16 w-full" variant="outline"> <Plus size={18} /> Add</Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Edit profile</DialogTitle>
-                                <DialogDescription>
-                                    Make changes to your profile here. Click save when you are done.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="name" className="text-right">
-                                        Name
-                                    </Label>
-                                    <Input
-                                        id="name"
-                                        defaultValue="Pedro Duarte"
-                                        className="col-span-3"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="username" className="text-right">
-                                        Username
-                                    </Label>
-                                    <Input
-                                        id="username"
-                                        defaultValue="@peduarte"
-                                        className="col-span-3"
-                                    />
-                                </div>
-                            </div>
 
-                        </DialogContent>
-                    </Dialog>
+                    <Addbutton />
 
                     <input className="border-2 border-gray-400 rounded-md my-4 w-full p-1" type="Search" placeholder="  Search" />
                     <div> <p className="font-semi-bold py-3">Types</p>
