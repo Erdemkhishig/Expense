@@ -32,6 +32,7 @@ import { Slider } from "@/components/ui/slider"
 import { useState } from "react"
 
 import { Addbutton } from "./Addbutton";
+import { Addcategory } from "./Addcategory"
 
 
 // const category = [
@@ -197,9 +198,10 @@ export function Aside({ className, ...props }) {
                             </svg>
                             </div>
                         </button>
-                        <button className="flex items-center gap-2">
+                        {/* <button className="flex items-center gap-2">
                             <Plus size={20} color="blue" />Add Category
-                        </button>
+                        </button> */}
+                        <Addcategory />
                     </div>
 
                 </CardContent>

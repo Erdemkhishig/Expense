@@ -24,7 +24,7 @@ export const Navbar = () => {
                 <span className="font-bold">Records</span>
             </div>
             <div className="flex gap-8">
-                <Addbutton />
+                <div className="w-full"><Addbutton /></div>
 
                 <Avatar>
                     <AvatarImage src="Avatar.png" />
