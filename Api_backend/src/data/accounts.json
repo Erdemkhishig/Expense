@@ -1,0 +1,14 @@
+[
+  {
+    "amount": 1000,
+    "title": "beef"
+  },
+  {
+    "amount": 2000,
+    "title": "steak"
+  },
+  {
+    "title": "lamb",
+    "amount": "2500"
+  }
+]

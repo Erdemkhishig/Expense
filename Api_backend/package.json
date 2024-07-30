@@ -1,10 +1,9 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +12,6 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "nodemon": "^3.1.4"
-  }
+  },
+  "description": ""
 }
