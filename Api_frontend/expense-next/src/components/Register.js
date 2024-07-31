@@ -28,6 +28,10 @@ import { useState, useEffect } from 'react'
 import { Formik, useFormik } from "formik";
 import { validators } from "tailwind-merge";
 import * as yup from "yup";
+import { useContext } from "react";
+import { UserContext } from "./context";
+
+
 
 // if (blogs.length === 0) {
 //     return (
@@ -54,6 +58,8 @@ const initialValues = {
 
 };
 
+
+
 const onSubmit = (values) => {
     alert(
         `hello ${formik.values.name}${formik.values.email}${formik.values.password}`
@@ -79,6 +85,12 @@ const validate = (values) => {
 
 export const Register = () => {
 
+    const {userInfo, setUserInfo} = useContext(UserContext);
+    
+    console.log(userInfo);
+
+    
+
     // const [name, setName] = useState("");
     // const [email, setEmail] = useState("");
     // const [password, setPassword] = useState("");
@@ -97,7 +109,9 @@ export const Register = () => {
 
 
 
-    console.log("info", formik.errors)
+    console.log("info", formik.errors);
+
+  
 
     return (
         <main className="max-w-screen-xl m-auto flex h-screen items-center">
@@ -123,17 +137,18 @@ export const Register = () => {
                     </CardHeader>
                     <CardContent>
                         <form
-                            className="grid w-full items-center gap-4" onSubmit={formik.handleSubmit} >
+                            className="grid w-full items-center gap-4" onSubmit={formik.handleSubmit} > 
                             <div className="flex flex-col space-y-1.5">
 
-                                <Input className="bg-gray-100" id="name" placeholder="name" type="text" value={formik.values.name}
-                                    onChange={formik.handleChange} />
+                                <Input onChange={(event) =>setUserInfo({...userInfo, name: event.target.value})} className="bg-gray-100" id="name" placeholder="name" type="text" 
+                                    // onChange={formik.handleChange} />
+                                  />
                                 {formik.errors.name ? (<p>{formik.errors.name}</p>) : null}
 
                             </div>
                             <div className="flex flex-col space-y-1.5">
 
-                                <Input className="bg-gray-100" id="email" placeholder="Email" type="text" value={formik.values.email}
+                                <Input  className="bg-gray-100" id="email" placeholder="Email" type="text" value={formik.values.email}
                                     onChange={formik.handleChange} />
                                 {formik.errors.email ? (<p>{formik.errors.email}</p>) : null}
                             </div>
@@ -163,7 +178,7 @@ export const Register = () => {
 
             </div>
             <div className="flex bg-[#0166FF] h-4/5 w-1/2 ">
-
+              
             </div>
 
         </main>

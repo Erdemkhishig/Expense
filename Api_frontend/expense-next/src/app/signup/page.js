@@ -23,11 +23,15 @@ import {
 
 import Link from "next/link";
 import { useState, useEffect } from 'react'
+import { UserContext } from "@/components/context";
+import { useContext } from "react";
+import { Laugh } from "lucide-react";
+
 
 
 export default function signup() {
 
-
+const {userInfo} = useContext(UserContext)
 
     return (
         <main className="max-w-screen-xl m-auto flex h-screen items-center">
@@ -45,7 +49,7 @@ export default function signup() {
                         </CardTitle>
 
                         <CardDescription className="flex flex-col justify-center items-center text-black">
-                            <div className="text-2xl font-bold">Welcome back</div>
+                            <div className="text-lg font-bold flex gap-2 ">Welcome back ! <Laugh /> {userInfo.name}</div>
                             <div >Welcome back, please enter your details</div>
 
 
