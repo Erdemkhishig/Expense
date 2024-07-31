@@ -24,7 +24,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-import { Anchor, CircleHelp, Earth, Layers, Grape, Bird, Watch, LoaderPinwheel, FileDigit, Kanban, Hourglass, ShipWheel, Plus, House, Gift, Utensils, Martini, CarTaxiFront, Shirt, Circle, Contact, CreditCard, Image, ZoomIn, Mic, Sheet, Leaf, } from 'lucide-react';
+import { Anchor, CircleHelp, Earth, Layers, Grape, Bird, Watch, LoaderPinwheel, FileDigit, Kanban, Hourglass, ShipWheel, Plus, House, Gift, Utensils, Martini, CarTaxiFront, Shirt, Circle, Contact, CreditCard, Car, ZoomIn, Mic, Sheet, Leaf, } from 'lucide-react';
 
 import { Textarea } from "@/components/ui/textarea"
 
@@ -99,7 +99,7 @@ const icons = [
         icon: <CreditCard />
     },
     {
-        icon: <Image />,
+        icon: <Car />,
     },
     {
         icon: <ZoomIn />,
@@ -239,7 +239,7 @@ export const Addbutton = () => {
                                                             <div className="grid grid-cols-6 grid-rows-4 py-4 pr-4">
 
                                                                 {icons.map((item, index) => (
-                                                                    <div >
+                                                                    <div key={index}>
 
                                                                         <SelectItem value={index}>
                                                                             <div>{item.icon} </div>
@@ -250,7 +250,11 @@ export const Addbutton = () => {
                                                             </div>
                                                             <div className="flex justify-between pr-4 pl-8 py-4 border-t-2">
                                                                 {color.map((item, index) => (
-                                                                    <div>{item.clr}</div>
+                                                                    <div key={index}>
+                                                                        <SelectItem value={index}>
+                                                                            <div>{item.clr}</div>
+                                                                        </SelectItem>
+                                                                    </div>
                                                                 ))}
                                                             </div>
                                                         </SelectGroup>
@@ -279,7 +283,7 @@ export const Addbutton = () => {
 
                                     </Dialog>
                                     {cat.map((item, index) => (
-                                        <SelectItem value={index} >
+                                        <SelectItem key={index} value={index} >
 
                                             <div className="flex gap-4 p-2" value={index}>{item.icon}
                                                 {item.title}

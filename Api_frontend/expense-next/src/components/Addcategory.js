@@ -25,7 +25,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { Anchor, CircleHelp, Earth, Layers, Grape, Bird, Watch, LoaderPinwheel, FileDigit, Kanban, Hourglass, ShipWheel, Plus, House, Gift, Utensils, Martini, CarTaxiFront, Shirt, Circle, Contact, CreditCard, Image, ZoomIn, Mic, Sheet, Leaf, } from 'lucide-react';
+import { Anchor, CircleHelp, Earth, Layers, Grape, Bird, Watch, LoaderPinwheel, FileDigit, Kanban, Hourglass, ShipWheel, Plus, House, Gift, Utensils, Martini, CarTaxiFront, Shirt, Circle, Contact, CreditCard, Car, ZoomIn, Mic, Sheet, Leaf, } from 'lucide-react';
 
 const cat = [
     {
@@ -81,7 +81,7 @@ const icons = [
         icon: <CreditCard />
     },
     {
-        icon: <Image />,
+        icon: <Car />,
     },
     {
         icon: <ZoomIn />,
@@ -184,7 +184,7 @@ export const Addcategory = () => {
                                     <div className="grid grid-cols-6 grid-rows-4 py-4 pr-4">
 
                                         {icons.map((item, index) => (
-                                            <div >
+                                            <div key={index}>
 
                                                 <SelectItem value={index}>
                                                     <div>{item.icon} </div>

@@ -1,14 +1,20 @@
 [
   {
-    "amount": 1000,
-    "title": "beef"
+    "title": "chicken",
+    "amount": "500"
   },
   {
-    "amount": 2000,
-    "title": "steak"
+    "title": "something",
+    "amount": "3000"
   },
   {
-    "title": "lamb",
-    "amount": "2500"
+    "title": "food",
+    "amount": "3000"
+  },
+  {
+    "title": "coke",
+    "amount": "2200",
+    "category": "drinks",
+    "time": "12pm"
   }
 ]

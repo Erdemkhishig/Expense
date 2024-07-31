@@ -52,22 +52,21 @@ export default function signup() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form>
+                        <div>
                             <div className="grid w-full items-center gap-4">
                                 <div className="flex flex-col space-y-1.5">
 
                                     <Input className="bg-gray-100" id="name" placeholder="Email" />
                                 </div>
                                 <div className="flex flex-col space-y-1.5">
-
                                     <Input className="bg-gray-100" id="name" placeholder="Password" />
                                 </div>
                                 <button className="bg-[#0166FF] text-white p-2 rounded-2xl">Log in</button>
                             </div>
-                        </form>
+                        </div>
                     </CardContent>
                     <CardFooter className="flex gap-2 justify-center">
-                        <div>Don't have account ?</div>
+                        <div>Dont have account ?</div>
                         <Link href="/info1" className="text-[#0166FF]"> Sign up</Link>
 
 

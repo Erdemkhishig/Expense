@@ -25,6 +25,9 @@ import {
 import Link from "next/link";
 import { useState, useEffect } from 'react'
 
+import { Formik, useFormik } from "formik";
+import { validators } from "tailwind-merge";
+import * as yup from "yup";
 
 // if (blogs.length === 0) {
 //     return (
@@ -34,8 +37,68 @@ import { useState, useEffect } from 'react'
 //     )
 // }
 
+const validationSchema = yup.object({
+    name: yup.string().required("where?"),
+    password: yup.string().required("where?").min(8),
+
+    email: yup.string()
+        .required("where?")
+        .email("wrong"),
+
+});
+
+const initialValues = {
+    name: "",
+    email: "",
+    password: "",
+
+};
+
+const onSubmit = (values) => {
+    alert(
+        `hello ${formik.values.name}${formik.values.email}${formik.values.password}`
+    );
+};
+const validate = (values) => {
+    let errors = {};
+
+    if (!values.name) {
+        errors.name = "Required";
+    }
+    if (!values.email) {
+        errors.email = "Required";
+    }
+    if (!values.password) {
+        errors.password = "Required";
+    }
+
+    return errors;
+};
+
+
 
 export const Register = () => {
+
+    // const [name, setName] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [repassword, setRepassword] = useState("");
+
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     alert(`name: ${name}, email: ${email}, password: ${password}, password:${repassword}`)
+    // }
+
+    const formik = useFormik({
+        initialValues,
+        onSubmit,
+        validationSchema,
+    });
+
+
+
+    console.log("info", formik.errors)
+
     return (
         <main className="max-w-screen-xl m-auto flex h-screen items-center">
             <div className="flex bg-white h-4/5 w-1/2 items-center justify-center">
@@ -59,26 +122,35 @@ export const Register = () => {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form>
-                            <div className="grid w-full items-center gap-4">
-                                <div className="flex flex-col space-y-1.5">
+                        <form
+                            className="grid w-full items-center gap-4" onSubmit={formik.handleSubmit} >
+                            <div className="flex flex-col space-y-1.5">
 
-                                    <Input className="bg-gray-100" id="name" placeholder="Email" />
-                                </div>
-                                <div className="flex flex-col space-y-1.5">
+                                <Input className="bg-gray-100" id="name" placeholder="name" type="text" value={formik.values.name}
+                                    onChange={formik.handleChange} />
+                                {formik.errors.name ? (<p>{formik.errors.name}</p>) : null}
 
-                                    <Input className="bg-gray-100" id="name" placeholder="Password" />
-                                </div>
-                                <div className="flex flex-col space-y-1.5">
-
-                                    <Input className="bg-gray-100" id="name" placeholder="Password" />
-                                </div>
-                                <div className="flex flex-col space-y-1.5">
-
-                                    <Input className="bg-gray-100" id="name" placeholder="Re-password" />
-                                </div>
-                                <button className="bg-[#0166FF] text-white p-2 rounded-2xl">Sign up</button>
                             </div>
+                            <div className="flex flex-col space-y-1.5">
+
+                                <Input className="bg-gray-100" id="email" placeholder="Email" type="text" value={formik.values.email}
+                                    onChange={formik.handleChange} />
+                                {formik.errors.email ? (<p>{formik.errors.email}</p>) : null}
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+
+                                <Input className="bg-gray-100" id="password" placeholder="password" type="text" value={formik.values.password}
+                                    onChange={formik.handleChange} />
+                                {formik.errors.password ? (<p>{formik.errors.password}</p>) : null}
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+
+                                <Input className="bg-gray-100" id="repassword" placeholder="repassword" type="text" value={formik.values.password}
+                                    onChange={formik.handleChange} />
+                                {formik.errors.password ? (<p>{formik.errors.password}</p>) : null}
+                            </div>
+                            <button type="submit" className="bg-[#0166FF] text-white p-2 rounded-2xl">Sign up</button>
+
                         </form>
                     </CardContent>
                     <CardFooter className="flex gap-2 justify-center">
