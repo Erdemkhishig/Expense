@@ -175,39 +175,69 @@ const color = [
     },
 ]
 
-export const Addbutton = () => {
+export const Addbutton = ({ accounts }) => {
     const [date, setDate] = React.useState();
-    const [checked, unchecked] = useState(false)
-    const handlebgcolor = () => {
-        unchecked(!checked)
-    };
 
-    const [chckd, unchckd] = useState(false)
-    const bgcolor = () => {
-        unchckd(!chckd)
-    };
+    const [type, setType] = useState('Income');
+
+    // const handleLeftClick = () => setPosition('left-0 && bg-blue-500');
+    // const handleRightClick = () => setPosition('left-[182px] && bg-green-500');
+
+
+
 
     return (
+
         <Dialog>
+
             <DialogTrigger asChild>
                 <Button className="bg-blue-500 w-full rounded-2xl text-white" variant="outline">+ Record</Button>
             </DialogTrigger>
+
             <DialogContent className="w-[792px]">
                 <div className="border-b-2 w-full h-10 ">Add Record</div>
+
                 <div className="flex ">
                     <div className="flex flex-col gap-6 w-full">
 
+                        <div className="w-[100%] flex h-10  bg-gray-200 rounded-3xl">
+                            <div className="relative w-full rounded-full border-2 bg-gray-200">
+                                <div
+                                    className={`absolute top-0 h-full w-1/2 bg-blue-500 rounded-full transition-transform duration-1000`}
+                                    style={{
+                                        left: type === "Income" ? 0 : 182
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute left-0 top-0 h-full w-1/2 text-center py-2 bg-transparent cursor-pointer z-10"
+                                    onClick={() => {
+                                        setType("Income")
+                                    }}
+                                >
+                                    Income
+                                </button>
+                                <button
+                                    type="button"
+                                    className="absolute right-0 top-0 h-full w-1/2 text-center py-2 bg-transparent cursor-pointer z-10"
+                                    onClick={() => {
+                                        setType("Expense")
+                                    }}
+                                >
+                                    Expense
+                                </button>
+                            </div>
+                        </div>
 
-
-                        <div className="w-[90%] flex h-10  bg-gray-200 rounded-3xl">
-                            <button onClick={handlebgcolor} className={checked ? 'w-1/2 rounded-3xl  bg-blue-500 text-white' : 'w-1/2 rounded-3xl  bg-gray-200 text-black'}>Expense</button>
+                        {/* <div className="w-[90%] flex h-10  bg-gray-200 rounded-3xl">
+                            <button onClick={handlebgcolor} className={'w-1/2 rounded-3xl  bg-blue-500 text-white'}>Expense</button>
                             <button onClick={bgcolor} className={chckd ? 'w-1/2 rounded-3xl  bg-green-500 text-white' : 'w-1/2 rounded-3xl  bg-gray-200 text-black'}>Income</button>
 
 
-                        </div>
+                        </div> */}
 
 
-                        <input className="p-3 border-2 rounded-md" name="Amount" type="Amount" placeholder="$ 000.00" />
+                        < input className="p-3 border-2 rounded-md" name="Amount" type="Amount" placeholder="$ 000.00" />
                         <p>Category</p>
                         <Select>
                             <SelectTrigger className="w-full">
@@ -336,24 +366,13 @@ export const Addbutton = () => {
                     </div>
                     <div className="w-full h-full px-2">
                         <p className="p-2">Payee</p>
-                        <Select>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Choose" />
-                            </SelectTrigger>
-                            <SelectContent >
-                                <SelectGroup>
-                                    <SelectLabel>... </SelectLabel>
-                                    <SelectItem value="apple">Credit</SelectItem>
-                                    <SelectItem value="apple">Cash</SelectItem>
-
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <Input placeholder=" " />
                         <p className="p-2 my-2">Note</p>
                         <Textarea className="h-[64%]" placeholder="Type your message here." />
 
                     </div>
                 </div>
+
             </DialogContent>
         </Dialog>
 

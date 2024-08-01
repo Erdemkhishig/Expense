@@ -17,11 +17,12 @@ export default function Dashboard() {
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
     const [time, setTime] = useState("");
+    const URL = "http://localhost:3001"
 
 
     useEffect(() => {
         const getData = async () => {
-            const response = await axios.get("http://localhost:3001/accounts");
+            const response = await axios.get(`${URL}/accounts`);
             setAccounts(response.data);
 
         };
@@ -37,10 +38,19 @@ export default function Dashboard() {
             time,
         };
 
-        const response = await axios.post("http://localhost:3000/accounts",
+        const response = await axios.post(`${URL}/accounts`,
             newAccount
         );
         setAccounts([...accounts, response.data]);
+    };
+
+    const deleteAccount = async (accountId) => {
+        try {
+            await axios.delete(`${URL}/accounts/${accountId}`);
+            setAccounts(accounts.filter(account => account.id !== accountId));
+        } catch (error) {
+            console.error('Error deleting account:', error);
+        }
     };
 
     return (
@@ -48,7 +58,7 @@ export default function Dashboard() {
             <div className="px-4 max-w-screen-2xl m-auto ">
                 <Navbar />
                 <div className="bg-gray-100 h-full flex py-8 gap-4 px-24">
-                    <Aside />
+                    <Aside accounts={accounts} />
                     <div className="ml-8 w-full"><Main accounts={accounts} />
                         <div>
                             <p>Account</p>
@@ -87,8 +97,10 @@ export default function Dashboard() {
                                     }} />
 
                             </div>
-
-                            <button onClick={createAccount}>create</button>
+                            <div className='flex flex-col gap-4'>
+                                <button className="border-2" onClick={createAccount}>create</button>
+                                <button className='border-2'>delete</button>
+                            </div>
 
                         </div>
                     </div>

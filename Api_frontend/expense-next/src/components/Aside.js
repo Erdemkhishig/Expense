@@ -84,7 +84,7 @@ import { Addcategory } from "./Addcategory"
 
 // ]
 0
-export function Aside({ className, ...props }) {
+export function Aside({ accounts }) {
     const [range, setRange] = useState({ min: 0, max: 1000 })
     return (
         <div className="px-4 py-8 w-[24rem]">
@@ -96,7 +96,7 @@ export function Aside({ className, ...props }) {
                 </CardHeader>
                 <CardContent>
 
-                    <Addbutton />
+                    <Addbutton accounts={accounts} />
 
                     <input className="border-2 border-gray-400 rounded-md my-4 w-full p-1" type="Search" placeholder="  Search" />
                     <div> <p className="font-semi-bold py-3">Types</p>
