@@ -38,6 +38,7 @@
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "use-context-selector": "^2.0.0",
+    "uuidv4": "^6.2.13",
     "yup": "^1.4.0"
   },
   "devDependencies": {
