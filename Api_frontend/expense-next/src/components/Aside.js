@@ -14,7 +14,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Eye, Icon, icons, Plus } from 'lucide-react';
-
+import axios from 'axios';
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
@@ -34,6 +34,7 @@ import { useState } from "react"
 import { Addbutton } from "./Addbutton";
 import { Addcategory } from "./Addcategory"
 
+import { v4 as uuidv4 } from 'uuid';
 
 // const category = [
 //     {
@@ -84,8 +85,33 @@ import { Addcategory } from "./Addcategory"
 
 // ]
 0
-export function Aside({ accounts }) {
+export function Aside({ }) {
+    const [title, setTitle] = useState("");
+    const [amount, setAmount] = useState("");
+    const [category, setCategory] = useState("");
+    const [time, setTime] = useState("");
+    const [id, set] = useState("");
+    const [payee, setPayee] = useState("");
+    const URL = "http://localhost:3001"
+
     const [range, setRange] = useState({ min: 0, max: 1000 })
+    const [accounts, setAccounts] = useState([]);
+
+    const createAccount = async () => {
+        const newAccount = {
+            id: uuidv4(),
+            title,
+            amount,
+            category,
+            payee,
+            time,
+        };
+
+        const response = await axios.post(`${URL}/accounts`,
+            newAccount
+        );
+        setAccounts([...accounts, response.data]);
+    };
     return (
         <div className="px-4 py-8 w-[24rem]">
 
@@ -96,7 +122,7 @@ export function Aside({ accounts }) {
                 </CardHeader>
                 <CardContent>
 
-                    <Addbutton accounts={accounts} />
+                    <Addbutton accounts={accounts} setAccounts={setAccounts} createAccount={createAccount} />
 
                     <input className="border-2 border-gray-400 rounded-md my-4 w-full p-1" type="Search" placeholder="  Search" />
                     <div> <p className="font-semi-bold py-3">Types</p>

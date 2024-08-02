@@ -18,29 +18,20 @@ export default function Dashboard() {
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
     const [time, setTime] = useState("");
-    const [id, set] = useState("");
+    const [payee, setPayee] = useState("");
     const URL = "http://localhost:3001"
 
     useEffect(() => {
         const getData = async () => {
-          try {
-            const response = await axios.get(`${URL}/accounts`);
-            setAccounts(response.data);
-          } catch (error) {
-            console.error("There was an error fetching the accounts!", error);
-          }
+            try {
+                const response = await axios.get(`${URL}/accounts`);
+                setAccounts(response.data);
+            } catch (error) {
+                console.error("There was an error fetching the accounts!", error);
+            }
         };
         getData();
-      }, []);
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         const response = await axios.get(`${URL}/accounts`);
-    //         setAccounts(response.data);
-
-    //     };
-    //     getData()
-
-    // }, []);
+    }, []);
 
     const createAccount = async () => {
         const newAccount = {
@@ -48,6 +39,7 @@ export default function Dashboard() {
             title,
             amount,
             category,
+            payee,
             time,
         };
 
@@ -70,11 +62,25 @@ export default function Dashboard() {
         <main>
             <div className="px-4 max-w-screen-2xl m-auto ">
                 <Navbar />
-                <div className="bg-gray-100 h-full flex py-8 gap-4 px-24">
+                <div className="bg-gray-100 h-full flex py-8 gap-4 px-16">
                     <Aside accounts={accounts} />
-                    <div className="ml-8 w-full"><Main accounts={accounts} />
+                    <div className="ml-8 w-full"><Main accounts={accounts} createAccount={createAccount} />
+
                         <div>
                             <p>Account</p>
+
+                            {/* {accounts.map((account) => (
+
+
+                                <button key={account.id}
+                                    onClick={() => handleDelete(account.id)}
+                                    className="ml-4 px-2 py-1 bg-red-500 text-white rounded"
+                                >
+                                    Delete
+                                </button>
+
+                            ))} */}
+
                             {accounts.map((account, index, id) => (
                                 <li key={account.title + index}>
                                     {account.title} - {account.amount}
@@ -112,61 +118,29 @@ export default function Dashboard() {
                             </div>
                             <div className='flex flex-col gap-4'>
                                 <button className="border-2" onClick={createAccount}>create</button>
-                                <button className='border-2'>delete</button>
-                            </div>
-                            <div>
-                                <h1>Dashboard</h1>
-                                <div>
-                                    <input
-                                        type="text"
-                                   
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        placeholder="Title"
-                                    />
-                                    <input
-                                        type="number"
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
-                                        placeholder="Amount"
-                                    />
-                                    <input
-                                        type="text"
-                                   
-                                        value={category}
-                                        onChange={(e) => setCategory(e.target.value)}
-                                        placeholder="Category"
-                                    />
-                                    <input
-                                        type="text"
-                                   
-                                    
-                                        value={time}
-                                        onChange={(e) => setTime(e.target.value)}
-                                        placeholder="Time"
-                                    />
-                                    <button onClick={createAccount}>Add Account</button>
-                                </div>
-                                <ul>
-                                    {accounts.map((account) => (
-                                        <li key={account.id}>
-                                            <span>{account.title}</span>
-                                            <span>{account.amount}</span>
-                                            <span>{account.category}</span>
-                                            <span>{account.time}</span>
-                                            <button onClick={() => handleDelete(account.id)}>Delete</button>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <button onClick={() => handleDelete(accounts.id)}>Delete</button>
                             </div>
 
+                            <ul>
+                                {accounts.map((account) => (
+                                    <div key={account.id}>
+
+                                        <button onClick={() => handleDelete(account.id)}>Delete</button>
+                                    </div>
+                                ))}
+                            </ul>
                         </div>
+
                     </div>
-
                 </div>
-
             </div>
 
-        </main>
+
+
+
+
+
+
+        </main >
     );
 }

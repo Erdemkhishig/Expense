@@ -1,3 +1,7 @@
+"use client"
+
+import { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
 
 import {
@@ -27,9 +31,7 @@ import {
 import { Anchor, CircleHelp, Earth, Layers, Grape, Bird, Watch, LoaderPinwheel, FileDigit, Kanban, Hourglass, ShipWheel, Plus, House, Gift, Utensils, Martini, CarTaxiFront, Shirt, Circle, Contact, CreditCard, Car, ZoomIn, Mic, Sheet, Leaf, } from 'lucide-react';
 
 import { Textarea } from "@/components/ui/textarea"
-
-import { useState } from "react"
-
+import axios from 'axios';
 
 import * as React from "react"
 import { format } from "date-fns"
@@ -175,61 +177,106 @@ const color = [
     },
 ]
 
-export const Addbutton = ({ accounts }) => {
+export const Addbutton = ({ setAccounts, accounts }) => {
     const [date, setDate] = React.useState();
 
     const [type, setType] = useState('Income');
+    const activeColor = type === 'Income' ? 'bg-blue-500' : 'bg-green-500';
+    const buttonColor = type === 'Income' ? 'bg-blue-600' : 'bg-green-500';
 
     // const handleLeftClick = () => setPosition('left-0 && bg-blue-500');
     // const handleRightClick = () => setPosition('left-[182px] && bg-green-500');
 
+    const [title, setTitle] = useState("");
+    const [amount, setAmount] = useState("");
+    const [category, setCategory] = useState("");
+    const [time, setTime] = useState("");
+    const [payee, setPayee] = useState("");
+    const URL = "http://localhost:3001"
 
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const response = await axios.get(`${URL}/accounts`);
+                setAccounts(response.data);
+            } catch (error) {
+                console.error("There was an error fetching the accounts!", error);
+            }
+        };
+        getData();
+    }, []);
+
+
+    const createAccount = async () => {
+        const newAccount = {
+            id: uuidv4(),
+            title,
+            amount,
+            category,
+            payee,
+            time,
+        };
+
+        const response = await axios.post(`${URL}/accounts`,
+            newAccount
+        );
+        setAccounts([...accounts, response.data]);
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${URL}/accounts/${id}`);
+            setAccounts(accounts.filter((account) => account.id !== id));
+        } catch (error) {
+            console.error("There was an error deleting the account!", error);
+        }
+    };
 
 
     return (
+        <div>
 
-        <Dialog>
+            <Dialog>
 
-            <DialogTrigger asChild>
-                <Button className="bg-blue-500 w-full rounded-2xl text-white" variant="outline">+ Record</Button>
-            </DialogTrigger>
 
-            <DialogContent className="w-[792px]">
-                <div className="border-b-2 w-full h-10 ">Add Record</div>
 
-                <div className="flex ">
-                    <div className="flex flex-col gap-6 w-full">
+                <DialogTrigger asChild>
+                    <Button className="bg-blue-500 w-full rounded-2xl text-white" variant="outline">+ Record</Button>
+                </DialogTrigger>
 
-                        <div className="w-[100%] flex h-10  bg-gray-200 rounded-3xl">
-                            <div className="relative w-full rounded-full border-2 bg-gray-200">
-                                <div
-                                    className={`absolute top-0 h-full w-1/2 bg-blue-500 rounded-full transition-transform duration-1000`}
-                                    style={{
-                                        left: type === "Income" ? 0 : 182
-                                    }}
-                                />
-                                <button
-                                    type="button"
-                                    className="absolute left-0 top-0 h-full w-1/2 text-center py-2 bg-transparent cursor-pointer z-10"
-                                    onClick={() => {
-                                        setType("Income")
-                                    }}
-                                >
-                                    Income
-                                </button>
-                                <button
-                                    type="button"
-                                    className="absolute right-0 top-0 h-full w-1/2 text-center py-2 bg-transparent cursor-pointer z-10"
-                                    onClick={() => {
-                                        setType("Expense")
-                                    }}
-                                >
-                                    Expense
-                                </button>
+                <DialogContent className="w-[792px]">
+                    <div className="border-b-2 w-full h-10 ">Add Record</div>
+
+                    <div className="flex ">
+
+                        <div className="flex flex-col gap-6 w-full">
+
+                            <div className="w-full flex h-10 bg-gray-200 rounded-3xl">
+                                <div className="relative w-full rounded-full border-2 bg-gray-200">
+                                    <div
+                                        className={`absolute top-0 h-full w-1/2 ${activeColor} rounded-full transition-transform duration-500`}
+                                        style={{
+                                            transform: type === 'Income' ? 'translateX(0)' : 'translateX(100%)',
+                                        }}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute left-0 top-0 h-full w-1/2 text-center py-2 bg-transparent cursor-pointer z-10"
+                                        onClick={() => setType('Income')}
+                                    >
+                                        Income
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="absolute right-0 top-0 h-full w-1/2 text-center py-2 bg-transparent cursor-pointer z-10"
+                                        onClick={() => setType('Expense')}
+                                    >
+                                        Expense
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* <div className="w-[90%] flex h-10  bg-gray-200 rounded-3xl">
+                            {/* <div className="w-[90%] flex h-10  bg-gray-200 rounded-3xl">
                             <button onClick={handlebgcolor} className={'w-1/2 rounded-3xl  bg-blue-500 text-white'}>Expense</button>
                             <button onClick={bgcolor} className={chckd ? 'w-1/2 rounded-3xl  bg-green-500 text-white' : 'w-1/2 rounded-3xl  bg-gray-200 text-black'}>Income</button>
 
@@ -237,144 +284,159 @@ export const Addbutton = ({ accounts }) => {
                         </div> */}
 
 
-                        < input className="p-3 border-2 rounded-md" name="Amount" type="Amount" placeholder="$ 000.00" />
-                        <p>Category</p>
-                        <Select>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Find or choose category" />
-                            </SelectTrigger>
-                            <SelectContent >
-                                <SelectGroup>
+                            <input className='border'
+                                value={amount}
+                                placeholder='amount'
+                                onChange={(event) => {
+                                    setAmount(event.target.value);
+                                }} />
+                            <p>Category</p>
+                            <Select>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Find or choose category" />
+                                </SelectTrigger>
+                                <SelectContent >
+                                    <SelectGroup>
 
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button className="w-full flex gap-2" variant="outline">
-                                                <div className="border-2 border-blue-600 rounded-full bg-blue-600"><Plus size={16} color="white" /></div>
-                                                <div>Category</div>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button className="w-full flex gap-2" variant="outline">
+                                                    <div className="border-2 border-blue-600 rounded-full bg-blue-600"><Plus size={16} color="white" /></div>
+                                                    <div>Category</div>
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[425px]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Add Category</DialogTitle>
+
+                                                </DialogHeader>
+                                                <div className="flex gap-4">
+
+                                                    <Select>
+                                                        <SelectTrigger className="w-fit">
+                                                            <SelectValue placeholder={<House />} />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectGroup>
+                                                                <div className="grid grid-cols-6 grid-rows-4 py-4 pr-4">
+
+                                                                    {icons.map((item, index) => (
+                                                                        <div key={index}>
+
+                                                                            <SelectItem value={index}>
+                                                                                <div>{item.icon} </div>
+                                                                            </SelectItem>
+
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                                <div className="flex justify-between pr-4 pl-8 py-4 border-t-2">
+                                                                    {color.map((item, index) => (
+                                                                        <div key={index}>
+                                                                            <SelectItem value={index}>
+                                                                                <div>{item.clr}</div>
+                                                                            </SelectItem>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </SelectGroup>
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <Select>
+                                                        <SelectTrigger className="w-72">
+                                                            <SelectValue placeholder="Name" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectGroup>
+                                                                <SelectLabel>Categories</SelectLabel>
+                                                                <SelectItem value="apple">Food</SelectItem>
+                                                                <SelectItem value="banana">Gift</SelectItem>
+
+                                                            </SelectGroup>
+                                                        </SelectContent>
+
+                                                    </Select>
+                                                </div>
+
+                                                <DialogFooter className="flex w-96 px-0 justify-center">
+                                                    <button className="bg-green-600 rounded-2xl p-2 w-full text-white" type="submit">Save changes</button>
+                                                </DialogFooter>
+                                            </DialogContent>
+
+                                        </Dialog>
+                                        {cat.map((item, index) => (
+                                            <SelectItem key={index} value={index} >
+
+                                                <div className="flex gap-4 p-2" value={index}>{item.icon}
+                                                    {item.title}
+                                                </div>
+                                            </SelectItem>
+                                        ))}
+
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                            <div className="flex gap-2 items-center">
+                                <div className="flex flex-col">
+                                    Date
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-[180px] justify-start text-left font-normal",
+                                                    !date && "text-muted-foreground"
+                                                )}
+                                            >
+                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                {date ? format(date, "PPP") : <span>{setDate}</span>}
                                             </Button>
-                                        </DialogTrigger>
-                                        <DialogContent className="sm:max-w-[425px]">
-                                            <DialogHeader>
-                                                <DialogTitle>Add Category</DialogTitle>
-
-                                            </DialogHeader>
-                                            <div className="flex gap-4">
-
-                                                <Select>
-                                                    <SelectTrigger className="w-fit">
-                                                        <SelectValue placeholder={<House />} />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            <div className="grid grid-cols-6 grid-rows-4 py-4 pr-4">
-
-                                                                {icons.map((item, index) => (
-                                                                    <div key={index}>
-
-                                                                        <SelectItem value={index}>
-                                                                            <div>{item.icon} </div>
-                                                                        </SelectItem>
-
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                            <div className="flex justify-between pr-4 pl-8 py-4 border-t-2">
-                                                                {color.map((item, index) => (
-                                                                    <div key={index}>
-                                                                        <SelectItem value={index}>
-                                                                            <div>{item.clr}</div>
-                                                                        </SelectItem>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
-                                                <Select>
-                                                    <SelectTrigger className="w-72">
-                                                        <SelectValue placeholder="Name" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            <SelectLabel>Categories</SelectLabel>
-                                                            <SelectItem value="apple">Food</SelectItem>
-                                                            <SelectItem value="banana">Gift</SelectItem>
-
-                                                        </SelectGroup>
-                                                    </SelectContent>
-
-                                                </Select>
-                                            </div>
-
-                                            <DialogFooter className="flex w-96 px-0 justify-center">
-                                                <button className="bg-green-600 rounded-2xl p-2 w-full text-white" type="submit">Save changes</button>
-                                            </DialogFooter>
-                                        </DialogContent>
-
-                                    </Dialog>
-                                    {cat.map((item, index) => (
-                                        <SelectItem key={index} value={index} >
-
-                                            <div className="flex gap-4 p-2" value={index}>{item.icon}
-                                                {item.title}
-                                            </div>
-                                        </SelectItem>
-                                    ))}
-
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                        <div className="flex gap-2 items-center">
-                            <div className="flex flex-col">
-                                Date
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-[180px] justify-start text-left font-normal",
-                                                !date && "text-muted-foreground"
-                                            )}
-                                        >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {date ? format(date, "PPP") : <span>{setDate}</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0">
-                                        <Calendar
-                                            mode="single"
-                                            selected={date}
-                                            onSelect={setDate}
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0">
+                                            <Calendar
+                                                mode="single"
+                                                selected={date}
+                                                onSelect={setDate}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
 
 
+                                </div>
+
+                                <div className="flex flex-col w-full">
+                                    Time
+                                    <Input type="time" placeholder="Email" />
+
+
+                                </div>
                             </div>
 
-                            <div className="flex flex-col w-full">
-                                Time
-                                <Input type="time" placeholder="Email" />
+                            <button
+                                onClick={createAccount} className={`w-full py-2 text-white ${buttonColor} rounded-md`}
+                                type="submit"
+                            >
+                                Add Records
+                            </button>
 
 
-                            </div>
                         </div>
+                        <div className="w-full h-full px-2">
+                            <p className="p-2">Payee</p>
+                            <Input placeholder=" " />
+                            <p className="p-2 my-2">Note</p>
+                            <Textarea className="h-[64%]" placeholder="Type your message here." />
 
-                        <Button className="w-full bg-blue-600" type="submit">Add Records</Button>
-
+                        </div>
                     </div>
-                    <div className="w-full h-full px-2">
-                        <p className="p-2">Payee</p>
-                        <Input placeholder=" " />
-                        <p className="p-2 my-2">Note</p>
-                        <Textarea className="h-[64%]" placeholder="Type your message here." />
 
-                    </div>
-                </div>
+                </DialogContent>
 
-            </DialogContent>
-        </Dialog>
+            </Dialog>
+
+        </div>
+
 
     )
 }

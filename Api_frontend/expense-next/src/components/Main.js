@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/carousel";
 
 import { House, Utensils } from 'lucide-react';
-
+import { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import {
     Select,
     SelectContent,
@@ -31,7 +33,23 @@ const table = [
     },
 ]
 
-export const Main = ({ accounts }) => {
+
+export const Main = ({ createAccount, setAccounts, accounts }) => {
+    const [title, setTitle] = useState("");
+    const [amount, setAmount] = useState("");
+    const [category, setCategory] = useState("");
+    const [time, setTime] = useState("");
+    const [id, set] = useState("");
+    const URL = "http://localhost:3001"
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${URL}/accounts/${id}`);
+            setAccounts(accounts.filter((account) => account.id !== id));
+        } catch (error) {
+            console.error("There was an error deleting the account!", error);
+        }
+    };
     return (
         <div>
             <div className="pt-8 pb-4 flex justify-between">
@@ -110,7 +128,11 @@ export const Main = ({ accounts }) => {
 
 
                     <p className="font-bold py-4">Yesterday</p>
-                    {accounts.map((account, index) => (
+                    {accounts.map((account, index, id) => (
+
+
+
+
                         <div className="flex justify-between space-x-2 border-2 p-4 rounded-2xl bg-white" key={account.title + index}>
                             <div className="flex items-center pl-4 gap-4"><Checkbox id="terms" />
                                 <label
@@ -126,8 +148,17 @@ export const Main = ({ accounts }) => {
                                 </label>
                             </div>
                             <p className="text-red-300 flex justify-end">-  {account.amount}</p>
+                            <button key={account.id}
+                                onClick={() => handleDelete(account.id)}
+                                className="ml-4 px-2 py-1 bg-red-500 text-white rounded"
+                            >
+                                Delete
+                            </button>
+
+
                         </div>
                     ))}
+
 
 
 
