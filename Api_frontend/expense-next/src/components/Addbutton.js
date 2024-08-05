@@ -49,51 +49,35 @@ import {
 
 const cat = [
     {
-        icon: <House color="blue" />,
+        icon: <House />,
         title: "Home"
     },
     {
-        icon: <Gift color="red " />,
+        icon: <Gift  />,
         title: "Gift"
     },
     {
-        icon: <Utensils color="orange " />,
+        icon: <Utensils />,
         title: "Food"
     },
     {
-        icon: <Martini color="purple " />,
+        icon: <Martini />,
         title: "Drink"
     },
     {
-        icon: <CarTaxiFront color="yellow " />,
+        icon: <CarTaxiFront  />,
         title: "Vehicle"
     },
     {
-        icon: <Shirt color="purple " />,
+        icon: <Shirt  />,
         title: "Shopping"
     },
 
 ]
 
 const icons = [
-    {
-        icon: <House />,
-    },
-    {
-        icon: <Gift />,
-    },
-    {
-        icon: <Utensils />,
-    },
-    {
-        icon: <Martini />,
-    },
-    {
-        icon: <CarTaxiFront />,
-    },
-    {
-        icon: <Shirt />,
-    },
+
+ 
     {
         icon: <Contact />,
     },
