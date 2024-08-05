@@ -18,14 +18,17 @@ const createAccount = async (req, res) => {
 
     try {
         const filePath = path.join(__dirname, "..", "data", "accounts.json");
-        const rawData = fs.readFileSync(filePath);
-        const accounts = JSON.parse(rawData);
-        const newAccount = req.body();
 
-        console.log(newAccount)
+        const rawData = fs.readFileSync(filePath);
+
+        const accounts = JSON.parse(rawData);
+
+        const newAccount = req.body;
 
         accounts.push(newAccount);
-        fs.writeFileSync(filePath, JSON.stringify(accounts, null, 2));
+
+        fs.writeFileSync(filePath, JSON.stringify(accounts));
+
         res.json(newAccount)
 
     } catch (error) {

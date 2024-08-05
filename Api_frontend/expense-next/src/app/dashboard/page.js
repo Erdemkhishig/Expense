@@ -42,11 +42,14 @@ export default function Dashboard() {
             payee,
             time,
         };
-
-        const response = await axios.post(`${URL}/accounts`,
-            newAccount
-        );
-        setAccounts([...accounts, response.data]);
+        try {
+            const response = await axios.post(`${URL}/accounts`,
+                newAccount
+            );
+            setAccounts([...accounts, response.data]);
+        } catch (error) {
+            console.error(error)
+        }
     };
 
     const handleDelete = async (id) => {
@@ -63,13 +66,13 @@ export default function Dashboard() {
             <div className="px-4 max-w-screen-2xl m-auto ">
                 <Navbar />
                 <div className="bg-gray-100 h-full flex py-8 gap-4 px-16">
-                    <Aside accounts={accounts} />
-                    <div className="ml-8 w-full"><Main accounts={accounts} createAccount={createAccount} />
+                    <Aside createAccount={createAccount} setAccounts={setAccounts} accounts={accounts} />
+                    <div className="ml-8 w-full"><Main createAccount={createAccount} setAccounts={setAccounts} accounts={accounts} />
 
                         <div>
-                            <p>Account</p>
+                            {/* {/* <p>Account</p>
 
-                            {/* {accounts.map((account) => (
+                            {accounts.map((account) => (
 
 
                                 <button key={account.id}
@@ -81,13 +84,13 @@ export default function Dashboard() {
 
                             ))} */}
 
-                            {accounts.map((account, index, id) => (
+                            {/* {accounts.map((account, index, id) => (
                                 <li key={account.title + index}>
                                     {account.title} - {account.amount}
                                 </li>
-                            ))}
+                            ))} */}
 
-                            <div className='flex gap-4 p-6'>
+                            {/* <div className='flex gap-4 p-6'>
                                 <input className='border'
                                     value={title}
                                     placeholder='title'
@@ -118,22 +121,17 @@ export default function Dashboard() {
                             </div>
                             <div className='flex flex-col gap-4'>
                                 <button className="border-2" onClick={createAccount}>create</button>
-                                <button onClick={() => handleDelete(accounts.id)}>Delete</button>
-                            </div>
 
-                            <ul>
-                                {accounts.map((account) => (
-                                    <div key={account.id}>
+                            </div> */}
 
-                                        <button onClick={() => handleDelete(account.id)}>Delete</button>
-                                    </div>
-                                ))}
-                            </ul>
+
                         </div>
 
                     </div>
                 </div>
             </div>
+
+
 
 
 

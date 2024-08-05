@@ -187,6 +187,7 @@ export const Addbutton = ({ setAccounts, accounts }) => {
     // const handleLeftClick = () => setPosition('left-0 && bg-blue-500');
     // const handleRightClick = () => setPosition('left-[182px] && bg-green-500');
 
+    // const [accounts, setAccounts] = useState([]);
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
@@ -206,7 +207,6 @@ export const Addbutton = ({ setAccounts, accounts }) => {
         getData();
     }, []);
 
-
     const createAccount = async () => {
         const newAccount = {
             id: uuidv4(),
@@ -216,12 +216,16 @@ export const Addbutton = ({ setAccounts, accounts }) => {
             payee,
             time,
         };
-
-        const response = await axios.post(`${URL}/accounts`,
-            newAccount
-        );
-        setAccounts([...accounts, response.data]);
+        try {
+            const response = await axios.post(`${URL}/accounts`,
+                newAccount
+            );
+            setAccounts([...accounts, response.data]);
+        } catch (error) {
+            console.error(error)
+        }
     };
+
 
     const handleDelete = async (id) => {
         try {
@@ -282,6 +286,7 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
 
                         </div> */}
+
 
 
                             <input className='border'
@@ -376,6 +381,8 @@ export const Addbutton = ({ setAccounts, accounts }) => {
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
+
+
                             <div className="flex gap-2 items-center">
                                 <div className="flex flex-col">
                                     Date
@@ -423,8 +430,14 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
                         </div>
                         <div className="w-full h-full px-2">
-                            <p className="p-2">Payee</p>
-                            <Input placeholder=" " />
+                            <p className='p-2'>Payee</p>
+                            <input className='border p-2'
+                                value={title}
+                                placeholder=''
+                                onChange={(event) => {
+                                    setTitle(event.target.value);
+                                }} />
+
                             <p className="p-2 my-2">Note</p>
                             <Textarea className="h-[64%]" placeholder="Type your message here." />
 
@@ -435,7 +448,10 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
             </Dialog>
 
+
         </div>
+
+
 
 
     )

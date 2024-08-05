@@ -85,7 +85,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // ]
 0
-export function Aside({ }) {
+export function Aside({ createAccount, setAccounts, accounts }) {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
@@ -95,23 +95,8 @@ export function Aside({ }) {
     const URL = "http://localhost:3001"
 
     const [range, setRange] = useState({ min: 0, max: 1000 })
-    const [accounts, setAccounts] = useState([]);
+    // const [accounts, setAccounts] = useState([]);
 
-    const createAccount = async () => {
-        const newAccount = {
-            id: uuidv4(),
-            title,
-            amount,
-            category,
-            payee,
-            time,
-        };
-
-        const response = await axios.post(`${URL}/accounts`,
-            newAccount
-        );
-        setAccounts([...accounts, response.data]);
-    };
     return (
         <div className="px-4 py-8 w-[24rem]">
 
