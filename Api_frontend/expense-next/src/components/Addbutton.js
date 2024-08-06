@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
 
 import {
@@ -52,7 +53,7 @@ const cat = [
         title: "Home"
     },
     {
-        icon: <Gift />,
+        icon: <Gift  />,
         title: "Gift"
     },
     {
@@ -64,11 +65,11 @@ const cat = [
         title: "Drink"
     },
     {
-        icon: <CarTaxiFront />,
+        icon: <CarTaxiFront  />,
         title: "Vehicle"
     },
     {
-        icon: <Shirt />,
+        icon: <Shirt  />,
         title: "Shopping"
     },
 
@@ -76,7 +77,7 @@ const cat = [
 
 const icons = [
 
-
+ 
     {
         icon: <Contact />,
     },
@@ -160,7 +161,7 @@ const color = [
     },
 ]
 
-export const Addbutton = ({ setAccounts, accounts, getCategoryById, setCategories, categories }) => {
+export const Addbutton = ({ setAccounts, accounts }) => {
     const [date, setDate] = React.useState();
 
     const [type, setType] = useState('Income');
@@ -192,6 +193,7 @@ export const Addbutton = ({ setAccounts, accounts, getCategoryById, setCategorie
 
     const createAccount = async () => {
         const newAccount = {
+            id: uuidv4(),
             title,
             amount,
             category,
@@ -278,7 +280,7 @@ export const Addbutton = ({ setAccounts, accounts, getCategoryById, setCategorie
                                     setAmount(event.target.value);
                                 }} />
                             <p>Category</p>
-                            <Select onValueChange={id => setCategory(id)}>
+                            <Select>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Find or choose category" />
                                 </SelectTrigger>
@@ -434,7 +436,7 @@ export const Addbutton = ({ setAccounts, accounts, getCategoryById, setCategorie
         </div>
 
 
-        // onValueChange={id => setCategory(id)}
+
 
     )
 }
