@@ -34,7 +34,7 @@ const table = [
 ]
 
 
-export const Main = ({ createAccount, setAccounts, accounts }) => {
+export const Main = ({ setAccounts, accounts, getCategoryById, setCategories, categories }) => {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
@@ -139,15 +139,15 @@ export const Main = ({ createAccount, setAccounts, accounts }) => {
                                     htmlFor="terms"
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                     <div className="flex gap-4">
-                                        <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center"><Utensils color="white" size={18} />{account.category}</div>
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-300 text-black">{categories.id} </div>
                                         <div className="flex flex-col justify-center items-center gap-2">
-                                            <p> {account.title}</p>
+                                            <p className="text-green-500"> {account.title}</p>
                                             <p className="text-gray-300">{account.time}</p>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <p className="text-red-300 flex justify-end">-  {account.amount}</p>
+                            <p className="text-red-300 flex justify-end">  {account.amount}</p>
                             <button key={account.id}
                                 onClick={() => handleDelete(account.id)}
                                 className="ml-4 px-2 py-1 bg-red-500 text-white rounded"

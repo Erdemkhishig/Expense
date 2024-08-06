@@ -85,7 +85,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // ]
 0
-export function Aside({ createAccount, setAccounts, accounts }) {
+export function Aside({ createAccount, setAccounts, accounts, getCategoryById, setCategories, categories }) {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
@@ -107,7 +107,7 @@ export function Aside({ createAccount, setAccounts, accounts }) {
                 </CardHeader>
                 <CardContent>
 
-                    <Addbutton accounts={accounts} setAccounts={setAccounts} createAccount={createAccount} />
+                    <Addbutton setAccounts={setAccounts} accounts={accounts} getCategoryById={getCategoryById} setCategories={setCategories} categories={categories} />
 
                     <input className="border-2 border-gray-400 rounded-md my-4 w-full p-1" type="Search" placeholder="  Search" />
                     <div> <p className="font-semi-bold py-3">Types</p>

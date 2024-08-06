@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Aside } from "@/components/Aside";
 import { Main } from "@/components/Main";
-import { v4 as uuidv4 } from 'uuid';
+
 
 
 export default function Dashboard() {
@@ -16,7 +16,7 @@ export default function Dashboard() {
     const [accounts, setAccounts] = useState([]);
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
-    const [category, setCategory] = useState("");
+    const [categories, setCategories] = useState([]);
     const [time, setTime] = useState("");
     const [payee, setPayee] = useState("");
     const URL = "http://localhost:3001"
@@ -33,9 +33,56 @@ export default function Dashboard() {
         getData();
     }, []);
 
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const response = await axios.get(`${URL}/categories`);
+                setCategories(response.data);
+            } catch (error) {
+                console.error("There was an error fetching the accounts!", error);
+            }
+        };
+        getData();
+    }, []);
+
+
+    const createCategory = async () => {
+        const newCategory = {
+
+            id,
+            color,
+
+
+        };
+        try {
+            const response = await axios.post(`${URL}/categories`,
+                newCategory
+            );
+            setCategories([...categories, response.data]);
+        } catch (error) {
+            console.error(error)
+        }
+    };
+
+    // const getCategoryById = async () => {
+    //     const newCategory = {
+
+    //         id,
+    //     };
+    //     try {
+    //         const response = await axios.post(`${URL}/categories`,
+    //             newCategory
+    //         );
+    //         setCategories([...categories, response.data]);
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // };
+
+
     const createAccount = async () => {
         const newAccount = {
-            id: uuidv4(),
+
             title,
             amount,
             category,
@@ -66,8 +113,8 @@ export default function Dashboard() {
             <div className="px-4 max-w-screen-2xl m-auto ">
                 <Navbar />
                 <div className="bg-gray-100 h-full flex py-8 gap-4 px-16">
-                    <Aside createAccount={createAccount} setAccounts={setAccounts} accounts={accounts} />
-                    <div className="ml-8 w-full"><Main createAccount={createAccount} setAccounts={setAccounts} accounts={accounts} />
+                    <Aside createAccount={createAccount} setAccounts={setAccounts} accounts={accounts} setCategories={setCategories} categories={categories} />
+                    <div className="ml-8 w-full"><Main setAccounts={setAccounts} accounts={accounts} setCategories={setCategories} categories={categories} />
 
                         <div>
                             {/* {/* <p>Account</p>

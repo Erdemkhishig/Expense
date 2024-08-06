@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { v4 } = require("uuid")
 
 const getAllAccounts = async (req, res) => {
     try {
@@ -14,7 +15,6 @@ const getAllAccounts = async (req, res) => {
 };
 
 const createAccount = async (req, res) => {
-    console.log(req.body, "GGGG");
 
     try {
         const filePath = path.join(__dirname, "..", "data", "accounts.json");
@@ -23,7 +23,7 @@ const createAccount = async (req, res) => {
 
         const accounts = JSON.parse(rawData);
 
-        const newAccount = req.body;
+        const newAccount = { ...req.body, id: v4(), createdAt: new Date().toISOString(), };
 
         accounts.push(newAccount);
 
@@ -62,7 +62,6 @@ const deleteAccount = async (req, res) => {
 };
 
 module.exports = { getAllAccounts, createAccount, deleteAccount };
-
 
 
 
