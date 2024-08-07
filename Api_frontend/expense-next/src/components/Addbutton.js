@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 
-
+import * as Icons from "react-icons/fa6";
 import {
     Dialog,
     DialogContent,
@@ -53,7 +53,7 @@ const cat = [
         title: "Home"
     },
     {
-        icon: <Gift  />,
+        icon: <Gift />,
         title: "Gift"
     },
     {
@@ -65,11 +65,11 @@ const cat = [
         title: "Drink"
     },
     {
-        icon: <CarTaxiFront  />,
+        icon: <CarTaxiFront />,
         title: "Vehicle"
     },
     {
-        icon: <Shirt  />,
+        icon: <Shirt />,
         title: "Shopping"
     },
 
@@ -77,7 +77,7 @@ const cat = [
 
 const icons = [
 
- 
+
     {
         icon: <Contact />,
     },
@@ -162,6 +162,7 @@ const color = [
 ]
 
 export const Addbutton = ({ setAccounts, accounts }) => {
+    const FaIcon = Icons["FaHouse"]
     const [date, setDate] = React.useState();
 
     const [type, setType] = useState('Income');
@@ -223,7 +224,6 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
     return (
         <div>
-
             <Dialog>
 
 
@@ -331,20 +331,7 @@ export const Addbutton = ({ setAccounts, accounts }) => {
                                                             </SelectGroup>
                                                         </SelectContent>
                                                     </Select>
-                                                    <Select>
-                                                        <SelectTrigger className="w-72">
-                                                            <SelectValue placeholder="Name" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectGroup>
-                                                                <SelectLabel>Categories</SelectLabel>
-                                                                <SelectItem value="apple">Food</SelectItem>
-                                                                <SelectItem value="banana">Gift</SelectItem>
-
-                                                            </SelectGroup>
-                                                        </SelectContent>
-
-                                                    </Select>
+                                                    <Input></Input>
                                                 </div>
 
                                                 <DialogFooter className="flex w-96 px-0 justify-center">
@@ -358,7 +345,9 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
                                                 <div className="flex gap-4 p-2" value={index}>{item.icon}
                                                     {item.title}
+                                                    <FaIcon />
                                                 </div>
+
                                             </SelectItem>
                                         ))}
 
@@ -440,3 +429,5 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
     )
 }
+
+

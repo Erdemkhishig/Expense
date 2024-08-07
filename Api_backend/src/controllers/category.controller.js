@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { v4: uuidv4 } = require('uuid');
+const { v4 } = require('uuid');
 
 const getAllCategories = async (req, res) => {
     try {
@@ -15,22 +15,14 @@ const getAllCategories = async (req, res) => {
 };
 
 const createCategory = async (req, res) => {
-
     try {
         const filePath = path.join(__dirname, "..", "data", "categories.json");
-
         const rawData = fs.readFileSync(filePath);
-
         const categories = JSON.parse(rawData);
-
-        const newCategory = { ...req.body, id: v4(), createdAt: new Date() }
-
+        const newCategory = { ...req.body, id: v4(), createdAt: new Date().toISOString(), };
         categories.push(newCategory);
-
         fs.writeFileSync(filePath, JSON.stringify(categories));
-
         res.json(newCategory)
-
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
