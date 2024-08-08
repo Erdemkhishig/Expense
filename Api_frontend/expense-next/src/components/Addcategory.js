@@ -1,6 +1,6 @@
 import * as Icons from "react-icons/fa6";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
     Select,
     SelectContent,
@@ -42,6 +42,10 @@ const cat = [
     "FaAppStore"
 ];
 
+import { Plus } from 'lucide-react';
+import { UserContext } from "./context";
+import { getDate } from "date-fns";
+
 const color = [
     { color: "blue", colorCode: "#0000FF" },
     { color: "cyan", colorCode: "#00FFFF" },
@@ -53,52 +57,53 @@ const color = [
 ];
 
 export const Addcategory = () => {
+    const { newCategory, setNewCategory, userInfo, allCategories, setAllCategories, getData } = useContext(UserContext);
+
+    // console.log(newCategory, "newCate");
+    // console.log(allCategories, "allCategories");
+    // console.log(userInfo, "info");
 
     const URL = "http://localhost:3001"
-    const [selectedCat, setSelectedCat] = useState('');
+    // const [selectedCat, setSelectedCat] = useState('');
     const [selectedColor, setSelectedColor] = useState('#0000FF'); // default color
-    const [selectedInput, setSelectedInput] = useState('');
+    // const [selectedInput, setSelectedInput] = useState('');
 
 
-    const handleCatChange = (e) => {
-        setSelectedCat(e);
+    // const handleCatChange = (e) => {
+    //     setNewCategory({ ...newCategory, icon: e });
+    // };
+
+    // const handleColorChange = (colorCode) => {
+    //     // setSelectedColor(colorCode);
+    //     setNewCategory({ ...newCategory, color: colorCode })
+    // };
+
+
+    const handleCatChange = (icon) => {
+        setNewCategory({ ...newCategory, icon });
     };
 
     const handleColorChange = (colorCode) => {
         setSelectedColor(colorCode);
+        setNewCategory({ ...newCategory, color: colorCode });
     };
 
-    const handleSaveChanges = () => {
-        console.log('Selected Category:', selectedCat);
-        console.log('Selected Color:', selectedColor);
-        console.log('Selected Input:', selectedInput);
-    };
+    // const handleSaveChanges = () => {
+    //     console.log('Selected Category:', selectedCat);
+    //     console.log('Selected Color:', selectedColor);
+    //     console.log('Selected Input:', selectedInput);
+    // };
 
-    const FaIcon = selectedCat ? Icons[selectedCat] : null;
-
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const response = await axios.get(`${URL}/categories`);
-                setCategories(response.data);
-            } catch (error) {
-                console.error("There was an error fetching the accounts!", error);
-            }
-        };
-        getData();
-    }, []);
+    const FaIcon = newCategory.icon ? Icons[newCategory.icon] : null;
 
     const createCategory = async () => {
-        const newCategory = {
-            category: selectedCat,
-            color: selectedColor,
-            name: selectedInput,
-        };
+
         try {
             const response = await axios.post(`${URL}/categories`,
                 newCategory
             );
-            setCategories([...categories, response.data]);
+
+            getData()
         } catch (error) {
             console.error(error)
         }
@@ -106,17 +111,21 @@ export const Addcategory = () => {
 
     return (
         <div>
-
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Category</Button>
+                    <Button className="w-full flex gap-2" variant="outline">
+                        <div className="border-2 border-blue-600 rounded-full bg-blue-600">
+                            <Plus size={16} color="white" />
+                        </div>
+                        <div> Add Category </div>
+                    </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>Add Category</DialogTitle>
                     </DialogHeader>
                     <div className="flex gap-4">
-                        <Select onValueChange={(val) => handleCatChange(val)}>
+                        <Select onValueChange={handleCatChange}>
                             <SelectTrigger className="w-fit">
                                 <SelectValue placeholder={FaIcon ? <FaIcon style={{ color: selectedColor }} /> : "Select Icon"} />
                             </SelectTrigger>
@@ -128,7 +137,7 @@ export const Addcategory = () => {
                                             return (
                                                 <SelectItem key={index} value={item}>
                                                     <div style={{ color: selectedColor }}>
-                                                        <Icon />
+                                                        <Icon size={24} />
                                                     </div>
                                                 </SelectItem>
                                             );
@@ -141,15 +150,13 @@ export const Addcategory = () => {
                                                 style={{ backgroundColor: item.colorCode }}
                                                 className={`w-8 h-8 rounded-full border-2 border-gray-200 ${selectedColor === item.colorCode ? 'border-black' : ''}`}
                                                 onClick={() => handleColorChange(item.colorCode)}
-                                            >
-                                                {/* Empty button to show color */}
-                                            </button>
+                                            />
                                         ))}
                                     </div>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
-                        <Input onChange={(e) => setSelectedInput(e.target.value)} />
+                        <Input onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
                     </div>
                     <DialogFooter className="flex w-96 px-0 justify-center">
                         <button
@@ -162,7 +169,6 @@ export const Addcategory = () => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-
         </div>
     );
 };

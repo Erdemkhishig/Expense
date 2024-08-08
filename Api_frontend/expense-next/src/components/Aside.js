@@ -29,12 +29,14 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Slider } from "@/components/ui/slider"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import { Addbutton } from "./Addbutton";
 import { Addcategory } from "./Addcategory"
 
 import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from "./context"
+import { Categorybar } from "./Categorybar"
 
 // const category = [
 //     {
@@ -86,6 +88,8 @@ import { v4 as uuidv4 } from 'uuid';
 // ]
 0
 export function Aside({ createAccount, setAccounts, accounts, getCategoryById, setCategories, categories }) {
+    const { newCategory } = useContext(UserContext)
+    const { allCategories } = useContext(UserContext)
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
@@ -94,7 +98,7 @@ export function Aside({ createAccount, setAccounts, accounts, getCategoryById, s
     const [payee, setPayee] = useState("");
     const URL = "http://localhost:3001"
 
-    const [range, setRange] = useState({ min: 0, max: 1000 })
+    const [range, setRange] = useState({ min: 0, max: 100000 })
     // const [accounts, setAccounts] = useState([]);
 
     return (
@@ -136,84 +140,12 @@ export function Aside({ createAccount, setAccounts, accounts, getCategoryById, s
                         <p className="font-bold mb-4">Category</p>
                         <button className="text-gray-300">Clear</button>
                     </div>
-                    {/* {category.map((item) => (
-                        <div className="flex gap-2">{item.icon}
-                            {item.title}
-                        </div>
-                    ))} */}
-                    <div className="flex flex-col gap-4">
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2 "><Eye color="#94A3B8" /> Food & Drinks</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Shopping</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Housing</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Transportation</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Vehicle</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Life & Entertainment</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Communication, PC</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Financial expenses</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Investments</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> Income</div>
-                            <svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                        </button>
-                        <button className="text-sm flex items-center w-full justify-between">
-                            <div className="flex gap-2"><Eye color="#94A3B8" /> <p>Others</p></div>
-                            <div><svg width="12" height="12" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.91671 3.58327L1.75004 5.74994C1.48615 6.01383 1.18407 6.07286 0.843791 5.92702C0.503513 5.78119 0.333374 5.52077 0.333374 5.14577L0.333374 0.854106C0.333374 0.479106 0.503513 0.21869 0.843791 0.0728569C1.18407 -0.0729766 1.48615 -0.0139489 1.75004 0.24994L3.91671 2.41661C4.00004 2.49994 4.06254 2.59022 4.10421 2.68744C4.14587 2.78466 4.16671 2.88883 4.16671 2.99994C4.16671 3.11105 4.14587 3.21522 4.10421 3.31244C4.06254 3.40966 4.00004 3.49994 3.91671 3.58327Z" fill="#1C1B1F" />
-                            </svg>
-                            </div>
-                        </button>
-                        {/* <button className="flex items-center gap-2">
-                            <Plus size={20} color="blue" />Add Category
-                        </button> */}
-                        <Addcategory />
-                    </div>
+
+
+
+                    <Categorybar />
+                    <Addcategory />
+
 
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4 items-start">
@@ -223,7 +155,7 @@ export function Aside({ createAccount, setAccounts, accounts, getCategoryById, s
                         <Input placeholder="1000" value={range.max} onChange={(event) => { setRange({ ...range, max: event.target.value }), console.log(range); }} />
 
                     </div>
-                    <Slider defaultValue={[33]} min={range.min} max={range.max} step={50} />
+                    <Slider defaultValue={[33]} min={range.min} max={range.max} step={500} />
                     <div className="flex w-full justify-between">
                         <p>{range.min}</p>
                         <p>{range.max}</p>

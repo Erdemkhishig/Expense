@@ -45,121 +45,11 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { Addcategory } from './Addcategory';
+import { Categorybar } from './Categorybar';
+import { UserContext } from './context';
 
 
-const cat = [
-    {
-        icon: <House />,
-        title: "Home"
-    },
-    {
-        icon: <Gift />,
-        title: "Gift"
-    },
-    {
-        icon: <Utensils />,
-        title: "Food"
-    },
-    {
-        icon: <Martini />,
-        title: "Drink"
-    },
-    {
-        icon: <CarTaxiFront />,
-        title: "Vehicle"
-    },
-    {
-        icon: <Shirt />,
-        title: "Shopping"
-    },
-
-]
-
-const icons = [
-
-
-    {
-        icon: <Contact />,
-    },
-    {
-        icon: <CreditCard />
-    },
-    {
-        icon: <Car />,
-    },
-    {
-        icon: <ZoomIn />,
-    },
-    {
-        icon: <Mic />,
-    },
-    {
-        icon: <Sheet />,
-    },
-    {
-        icon: <Leaf />,
-    },
-    {
-        icon: <Kanban />,
-    },
-    {
-        icon: <Hourglass />,
-    },
-    {
-        icon: <ShipWheel />,
-    },
-    {
-        icon: <FileDigit />,
-    },
-    {
-        icon: <LoaderPinwheel />,
-    },
-    {
-        icon: <Watch />,
-    },
-    {
-        icon: <Bird />,
-    },
-    {
-        icon: <Grape />,
-    },
-    {
-        icon: <Layers />,
-    },
-    {
-        icon: <Earth />,
-    },
-    {
-        icon: <CircleHelp />,
-    },
-    {
-        icon: <Anchor />,
-    },
-]
-
-const color = [
-    {
-        clr: < Circle fill="blue" color="blue" />
-    },
-    {
-        clr: < Circle fill="cyan" color="cyan" />
-    },
-    {
-        clr: < Circle fill="green" color="green" />
-    },
-    {
-        clr: < Circle fill="yellow" color="yellow" />
-    },
-    {
-        clr: < Circle fill="orange" color="orange" />
-    },
-    {
-        clr: < Circle fill="purple" color="purple" />
-    },
-    {
-        clr: < Circle fill="red" color="red" />
-    },
-]
 
 export const Addbutton = ({ setAccounts, accounts }) => {
     const FaIcon = Icons["FaHouse"]
@@ -179,7 +69,7 @@ export const Addbutton = ({ setAccounts, accounts }) => {
     const [time, setTime] = useState("");
     const [payee, setPayee] = useState("");
     const URL = "http://localhost:3001"
-
+    const { allCategories } = React.useContext(UserContext)
     useEffect(() => {
         const getData = async () => {
             try {
@@ -267,12 +157,7 @@ export const Addbutton = ({ setAccounts, accounts }) => {
                             {/* <div className="w-[90%] flex h-10  bg-gray-200 rounded-3xl">
                             <button onClick={handlebgcolor} className={'w-1/2 rounded-3xl  bg-blue-500 text-white'}>Expense</button>
                             <button onClick={bgcolor} className={chckd ? 'w-1/2 rounded-3xl  bg-green-500 text-white' : 'w-1/2 rounded-3xl  bg-gray-200 text-black'}>Income</button>
-
-
                         </div> */}
-
-
-
                             <input className='border'
                                 value={amount}
                                 placeholder='amount'
@@ -280,7 +165,7 @@ export const Addbutton = ({ setAccounts, accounts }) => {
                                     setAmount(event.target.value);
                                 }} />
                             <p>Category</p>
-                            <Select>
+                            <Select onValueChange={val => setCategory(val)}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Find or choose category" />
                                 </SelectTrigger>
@@ -289,73 +174,28 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
                                         <Dialog>
                                             <DialogTrigger asChild>
-                                                <Button className="w-full flex gap-2" variant="outline">
-                                                    <div className="border-2 border-blue-600 rounded-full bg-blue-600"><Plus size={16} color="white" /></div>
-                                                    <div>Category</div>
-                                                </Button>
+                                                <Addcategory />
+
                                             </DialogTrigger>
-                                            <DialogContent className="sm:max-w-[425px]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Add Category</DialogTitle>
-
-                                                </DialogHeader>
-                                                <div className="flex gap-4">
-
-                                                    <Select>
-                                                        <SelectTrigger className="w-fit">
-                                                            <SelectValue placeholder={<House />} />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectGroup>
-                                                                <div className="grid grid-cols-6 grid-rows-4 py-4 pr-4">
-
-                                                                    {icons.map((item, index) => (
-                                                                        <div key={index}>
-
-                                                                            <SelectItem value={index}>
-                                                                                <div>{item.icon} </div>
-                                                                            </SelectItem>
-
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                                <div className="flex justify-between pr-4 pl-8 py-4 border-t-2">
-                                                                    {color.map((item, index) => (
-                                                                        <div key={index}>
-                                                                            <SelectItem value={index}>
-                                                                                <div>{item.clr}</div>
-                                                                            </SelectItem>
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            </SelectGroup>
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <Input></Input>
-                                                </div>
-
-                                                <DialogFooter className="flex w-96 px-0 justify-center">
-                                                    <button className="bg-green-600 rounded-2xl p-2 w-full text-white" type="submit">Save changes</button>
-                                                </DialogFooter>
-                                            </DialogContent>
-
+                                            {
+                                                allCategories.map((item, index) => {
+                                                    const FaIcon = Icons[item.icon]
+                                                    return (
+                                                        <SelectItem value={item.id} key={index}>
+                                                            <div className='flex items-center gap-2'>
+                                                                <div style={{ color: item.color }} className='w-10 rounded-full flex items-center justify-center h-10 '><FaIcon size={20} /></div>
+                                                                {item.name}
+                                                            </div>
+                                                        </SelectItem>
+                                                    )
+                                                })
+                                            }
                                         </Dialog>
-                                        {cat.map((item, index) => (
-                                            <SelectItem key={index} value={index} >
 
-                                                <div className="flex gap-4 p-2" value={index}>{item.icon}
-                                                    {item.title}
-                                                    <FaIcon />
-                                                </div>
-
-                                            </SelectItem>
-                                        ))}
 
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-
-
                             <div className="flex gap-2 items-center">
                                 <div className="flex flex-col">
                                     Date
@@ -381,15 +221,11 @@ export const Addbutton = ({ setAccounts, accounts }) => {
                                             />
                                         </PopoverContent>
                                     </Popover>
-
-
                                 </div>
 
                                 <div className="flex flex-col w-full">
                                     Time
                                     <Input type="time" placeholder="Email" />
-
-
                                 </div>
                             </div>
 
@@ -399,8 +235,6 @@ export const Addbutton = ({ setAccounts, accounts }) => {
                             >
                                 Add Records
                             </button>
-
-
                         </div>
                         <div className="w-full h-full px-2">
                             <p className='p-2'>Payee</p>
@@ -413,20 +247,11 @@ export const Addbutton = ({ setAccounts, accounts }) => {
 
                             <p className="p-2 my-2">Note</p>
                             <Textarea className="h-[64%]" placeholder="Type your message here." />
-
                         </div>
                     </div>
-
                 </DialogContent>
-
             </Dialog>
-
-
         </div>
-
-
-
-
     )
 }
 

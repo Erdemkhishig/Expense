@@ -1,1 +1,30 @@
-[{"name":"bne","id":"df0ff510-6511-4450-bcc7-dd0cfe51247b","createdAt":"2024-08-07T04:34:49.435Z"},{"category":"FaUtensils","color":"#0000FF","name":"food","id":"437475df-bbae-4ed1-9e5f-eab83aa7843c","createdAt":"2024-08-07T04:35:01.419Z"},{"category":"FaUtensils","color":"#0000FF","name":"food","id":"49cf0013-ee09-4300-b674-159b2bc2ac41","createdAt":"2024-08-07T04:35:02.709Z"},{"category":"FaHeadSideMask","color":"#0000FF","name":"mask","id":"d4a8de98-ba2f-48c6-98c4-447afb732792","createdAt":"2024-08-07T04:35:15.899Z"}]
+[
+  {
+    "name": "Gift",
+    "icon": "FaGift",
+    "color": "#000000",
+    "id": "c1618bc3-3321-40be-8d43-cf0f30b4beb4",
+    "createdAt": "2024-08-08T03:48:40.011Z"
+  },
+  {
+    "name": "House",
+    "icon": "FaHouse",
+    "color": "#862398",
+    "id": "1418ce2e-74b8-41d1-8ff9-2d07d5dda10d",
+    "createdAt": "2024-08-08T04:21:33.046Z"
+  },
+  {
+    "name": "Online",
+    "icon": "FaAppStore",
+    "color": "#008000",
+    "id": "cba44a3c-c9a5-478b-ba54-7da585f267fc",
+    "createdAt": "2024-08-08T04:28:46.652Z"
+  },
+  {
+    "name": "Travel",
+    "icon": "FaPlaneUp",
+    "color": "#FFA500",
+    "id": "0107524d-cfa0-4ff8-baa2-939d81313702",
+    "createdAt": "2024-08-08T04:31:25.552Z"
+  }
+]

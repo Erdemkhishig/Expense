@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "id": "d89261ec-3a24-4458-b34f-0b65eeec3fd4",
+        "title": "",
+        "amount": "",
+        "category": "",
+        "payee": "",
+        "time": "",
+        "createdAt": "2024-08-08T04:48:58.167Z"
+    },
+    {
+        "id": "40f6ffea-e23f-4484-a490-7bb52c1d1759",
+        "title": "",
+        "amount": "",
+        "category": "cba44a3c-c9a5-478b-ba54-7da585f267fc",
+        "payee": "",
+        "time": "",
+        "createdAt": "2024-08-08T04:50:08.289Z"
+    }
+]

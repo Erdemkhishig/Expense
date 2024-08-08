@@ -37,7 +37,7 @@ const table = [
 export const Main = ({ setAccounts, accounts, getCategoryById, setCategories, categories }) => {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState([]);
     const [time, setTime] = useState("");
     const [id, set] = useState("");
     const URL = "http://localhost:3001"
@@ -139,7 +139,7 @@ export const Main = ({ setAccounts, accounts, getCategoryById, setCategories, ca
                                     htmlFor="terms"
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                     <div className="flex gap-4">
-                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-300 text-black">{categories.id} </div>
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-300 text-black">{account.category} </div>
                                         <div className="flex flex-col justify-center items-center gap-2">
                                             <p className="text-green-500"> {account.title}</p>
                                             <p className="text-gray-300">{account.time}</p>
