@@ -1,6 +1,7 @@
-import * as React from "react"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent } from "@/components/ui/card"
+import * as React from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
+import * as Icons from "react-icons/fa6";
 import {
     Carousel,
     CarouselContent,
@@ -9,9 +10,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import { House, Utensils } from 'lucide-react';
-import { useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 import axios from 'axios';
 import {
     Select,
@@ -22,25 +21,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { RiDeleteBinLine } from "react-icons/ri";
 
-const table = [
-    {
-        check: <Checkbox />,
-        icon: <House color="#94A3B8 " />,
-        title: "Food & Drinks",
-        time: "0",
-        amount: "0",
-    },
-]
-
-
-export const Main = ({ setAccounts, accounts, getCategoryById, setCategories, categories }) => {
-    const [title, setTitle] = useState("");
-    const [amount, setAmount] = useState("");
-    const [category, setCategory] = useState([]);
-    const [time, setTime] = useState("");
-    const [id, set] = useState("");
-    const URL = "http://localhost:3001"
+export const Main = ({ setAccounts, accounts, setCategories, categories }) => {
+    const URL = "http://localhost:3001";
 
     const handleDelete = async (id) => {
         try {
@@ -50,10 +34,20 @@ export const Main = ({ setAccounts, accounts, getCategoryById, setCategories, ca
             console.error("There was an error deleting the account!", error);
         }
     };
+
+    const getCategoryById = (categoryId) => {
+        return categories.find(category => category.id === categoryId) || {};
+    };
+
+    const getAmountStyle = (type) => {
+        return type === 'Income'
+            ? 'text-green-500'
+            : 'text-red-500';
+    };
+
     return (
         <div>
             <div className="pt-8 pb-4 flex justify-between">
-
                 <Carousel className="w-40 max-w-xs">
                     <CarouselContent>
                         {Array.from({ length: 30 }).map((_, index) => (
@@ -72,8 +66,6 @@ export const Main = ({ setAccounts, accounts, getCategoryById, setCategories, ca
                     <CarouselNext />
                 </Carousel>
 
-
-
                 <Select className="pt-4">
                     <SelectTrigger className="w-[180px] font-bold">
                         <SelectValue placeholder="Newest first" />
@@ -83,94 +75,67 @@ export const Main = ({ setAccounts, accounts, getCategoryById, setCategories, ca
                             <SelectLabel className="text-bold">Newest first</SelectLabel>
                             <SelectItem value="apple">Oldest First</SelectItem>
                             <SelectItem value="banana">...</SelectItem>
-
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-
             </div>
+
             <div className="-ml-12">
                 <div className="flex justify-between space-x-2 border-2 p-4 rounded-2xl bg-white">
-                    <div className="flex items-center pl-4 gap-4"><Checkbox id="terms" />
+                    <div className="flex items-center pl-4 gap-4">
+                        <Checkbox id="terms" />
                         <label
                             htmlFor="terms"
                             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                             <div className="flex gap-4">
-
                                 <div className="text-lg flex flex-col justify-center items-center gap-2">
                                     <p>Select all</p>
-
                                 </div>
                             </div>
                         </label>
                     </div>
-                    <p className="text-red-300 flex justify-end">- 1,000$</p>
+
                 </div>
+
                 <p className="font-bold py-4">Today</p>
 
-                <div className=" flex flex-col gap-4">
-                    <div className="flex justify-between space-x-2 border-2 p-4 rounded-2xl bg-white ">
-                        <div className="flex items-center pl-4 gap-4"><Checkbox id="terms" />
-                            <label
-                                htmlFor="terms"
-                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                <div className="flex gap-4">
-                                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center"><House color="white" size={18} /></div>
-                                    <div className="flex flex-col justify-center items-center gap-2">
-                                        <p>Lending & Renting</p>
-                                        <p className="text-gray-300">14:00</p>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <p className="text-green-300 flex justify-end">- 1,000$</p>
-                    </div>
+                <div className="flex flex-col gap-4">
+                    {accounts.map((account) => {
+                        const category = getCategoryById(account.category);
+                        const CategoryIcon = Icons[category.icon];
+                        const amountStyle = getAmountStyle(account.type);
 
-
-                    <p className="font-bold py-4">Yesterday</p>
-                    {accounts.map((account, index, id) => (
-
-
-
-
-                        <div className="flex justify-between space-x-2 border-2 p-4 rounded-2xl bg-white" key={account.title + index}>
-                            <div className="flex items-center pl-4 gap-4"><Checkbox id="terms" />
-                                <label
-                                    htmlFor="terms"
-                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                    <div className="flex gap-4">
-                                        <div className="w-8 h-8 rounded-full flex items-center justify-center bg-yellow-300 text-black">{account.category} </div>
-                                        <div className="flex flex-col justify-center items-center gap-2">
-                                            <p className="text-green-500"> {account.title}</p>
-                                            <p className="text-gray-300">{account.time}</p>
+                        return (
+                            <div key={account.id} className="flex justify-between items-center space-x-2 border-2 p-4 rounded-2xl bg-white">
+                                <div className="flex items-center pl-4 gap-4">
+                                    <Checkbox id={`checkbox-${account.id}`} />
+                                    <label
+                                        htmlFor={`checkbox-${account.id}`}
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                        <div className="flex gap-4">
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-black`} style={{ backgroundColor: category.color }}>
+                                                <CategoryIcon size={18} />
+                                            </div>
+                                            <div className="flex flex-col justify-center items-end gap-2">
+                                                <p>{category.name}</p>
+                                                <p className="text-gray-300">{account.time}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </label>
+                                    </label>
+                                </div>
+                                <p className={`flex justify-end ${amountStyle}`}>
+                                    {account.type === 'Expense' ? `-${account.amount}` : `+${account.amount}`}
+                                </p>
+                                <button
+                                    onClick={() => handleDelete(account.id)}
+                                >
+                                    <RiDeleteBinLine size={24} color="red" />
+                                </button>
                             </div>
-                            <p className="text-red-300 flex justify-end">  {account.amount}</p>
-                            <button key={account.id}
-                                onClick={() => handleDelete(account.id)}
-                                className="ml-4 px-2 py-1 bg-red-500 text-white rounded"
-                            >
-                                Delete
-                            </button>
-
-
-                        </div>
-                    ))}
-
-
-
-
-
-
+                        );
+                    })}
                 </div>
-
             </div>
         </div>
-
-
-
-    )
-
-}
+    );
+};

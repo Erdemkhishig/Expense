@@ -136,43 +136,43 @@ export const Register = () => {
                         </svg>
                         </CardTitle>
 
-                        <CardDescription className="flex flex-col justify-center items-center text-black">
+                        <div className="flex flex-col justify-center items-center text-black">
                             <div className="text-2xl font-bold">Greate Geld account </div>
                             <div >Sign up below to create your Wallet account</div>
 
 
-                        </CardDescription>
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <form
+                        <div
                             className="grid w-full items-center gap-4" onSubmit={formik.handleSubmit} >
                             <div className="flex flex-col space-y-1.5">
 
                                 <Input name="name" value={formik.values.name} onChange={formik.handleChange} className="bg-gray-100" id="name" placeholder="name" type="text" />
-                                {formik.errors.name && formik.touched.name ? (<p>{formik.errors.name}</p>) : null}
+                                {formik.errors.name && formik.touched.name ? (<div>{formik.errors.name}</div>) : null}
 
                             </div>
                             <div className="flex flex-col space-y-1.5">
 
                                 <Input className="bg-gray-100" id="email" placeholder="Email" type="text" value={formik.values.email}
                                     onChange={formik.handleChange} />
-                                {formik.errors.email && formik.touched.email ? (<p>{formik.errors.email}</p>) : null}
+                                {formik.errors.email && formik.touched.email ? (<div>{formik.errors.email}</div>) : null}
                             </div>
                             <div className="flex flex-col space-y-1.5">
 
                                 <Input className="bg-gray-100" id="password" placeholder="password" type="text" value={formik.values.password}
                                     onChange={formik.handleChange} />
-                                {formik.errors.password && formik.touched.password ? (<p>{formik.errors.password}</p>) : null}
+                                {formik.errors.password && formik.touched.password ? (<div>{formik.errors.password}</div>) : null}
                             </div>
                             <div className="flex flex-col space-y-1.5">
 
                                 <Input className="bg-gray-100" id="repassword" placeholder="repassword" type="text" value={formik.values.password}
                                     onChange={formik.handleChange} />
-                                {formik.errors.password && formik.touched.password ? (<p>{formik.errors.password}</p>) : null}
+                                {formik.errors.password && formik.touched.password ? (<div>{formik.errors.password}</div>) : null}
                             </div>
                             <button type="submit" className="bg-[#0166FF] text-white p-2 rounded-2xl">Sign up</button>
 
-                        </form>
+                        </div>
                     </CardContent>
                     <CardFooter className="flex gap-2 justify-center">
                         <div>Already have account ?</div>

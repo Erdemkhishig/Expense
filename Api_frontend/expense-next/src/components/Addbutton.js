@@ -239,14 +239,20 @@ export const Addbutton = ({ setAccounts, accounts }) => {
                         <div className="w-full h-full px-2">
                             <p className='p-2'>Payee</p>
                             <input className='border p-2'
-                                value={title}
+                                value={payee}
                                 placeholder=''
                                 onChange={(event) => {
-                                    setTitle(event.target.value);
+                                    setPayee(event.target.value);
                                 }} />
 
                             <p className="p-2 my-2">Note</p>
-                            <Textarea className="h-[64%]" placeholder="Type your message here." />
+                            <Textarea
+                                className="h-[64%]"
+                                placeholder="Type your message here."
+                                value={title}
+                                onChange={(event) => {
+                                    setTitle(event.target.value);
+                                }} />
                         </div>
                     </div>
                 </DialogContent>

@@ -12,12 +12,12 @@ export default function Home() {
 
 
   return (
-    <main >
+    <div >
 
 
       <Register />
 
 
-    </main>
+    </div>
   )
 }
